@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from repositories.repositories import WizardRepository, HouseRepository
 from services.services import WizardService, HouseService
 from db.database import db
@@ -21,15 +21,14 @@ def index():
 def wizards():
     service = WizardService(WizardRepository)
     wizards = service.get_all_wizards()
-    wizard_names = {w.name for w in wizards}
-    return 'wizards'
+    return render_template('wizards.html', wizards=wizards)
 
 
 @app.route('/houses')
 def houses():
     service = HouseService(HouseRepository)
     houses = service.get_all_houses()
-    return 'houses'
+    return render_template('houses.html', houses=houses)
 
 
 if __name__ == '__main__':
