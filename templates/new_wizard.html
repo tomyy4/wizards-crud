@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="">
+        <p>Wizard Name</p>
+        <input type="text" value="wizard_name">
+        <p>Wizard House</p>
+        <select name="house_options">
+            <option value="">Choose an option</option>
+            {% for house in houses %}
+            <option value="{{ house.id }}">{{ house }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="send">
+    </form>
+</body>
+</html>
