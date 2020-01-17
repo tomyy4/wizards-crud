@@ -1,6 +1,12 @@
 from flask import Flask
+from repositories.repositories import WizardRepository, HouseRepository
+from services.services import WizardService, HouseService
+from db.database import db
+
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db.init_app(app)
 
 
 @app.route('/')
@@ -10,7 +16,16 @@ def index():
 
 @app.route('/wizards')
 def wizards():
-    return 'Wizards page'
+    service = WizardService(WizardRepository)
+    wizards = service.get_all_wizards()
+    return [w.name for w in wizards]
+
+
+@app.route('/houses')
+def houses():
+    service = HouseService(HouseRepository)
+    houses = service.get_all_houses()
+    return [h.name for h in houses]
 
 
 if __name__ == '__main__':

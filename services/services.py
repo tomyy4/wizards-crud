@@ -5,7 +5,7 @@ class WizardService:
     def __init__(self, repository):
         self.repository = WizardRepository()
 
-    def get_all_wizard(self):
+    def get_all_wizards(self):
         return self.repository.all_wizards()
 
 
