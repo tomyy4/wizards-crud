@@ -11,8 +11,8 @@ class WizardService:
     def get_wizard_by_id(self, wizard_id):
         return self.repository.get_by_id(wizard_id)
 
-    def create_wizard(self, **kwargs):
-        return self.repository.create(**kwargs)
+    def create_wizard(self, name, house_id):
+        return self.repository.create(name, house_id)
 
 
 class HouseService:
@@ -25,3 +25,5 @@ class HouseService:
     def get_house_by_id(self, id):
         return self.repository.get_by_id(id)
 
+    def create_house(self, name):
+        return self.repository.create(name)

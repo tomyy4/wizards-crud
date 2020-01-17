@@ -1,6 +1,6 @@
 # flask-SQLAlchemy repositories
 from models.models import Wizard, House
-
+from db.database import db
 
 class WizardRepository:
 
@@ -10,8 +10,11 @@ class WizardRepository:
     def get_by_id(self, id):
         return Wizard.query.get(id)
 
-    def create(self, **kwargs):
-        return Wizard.create(**kwargs)
+    def create(self, name, house_id):
+        w = Wizard(name=name, house_id=house_id)
+
+        db.session.add(w)
+        db.session.commit()
 
 
 class HouseRepository:
@@ -22,5 +25,8 @@ class HouseRepository:
     def get_by_id(self, id):
         return House.query.get(id)
 
-    def create(self, args):
-        pass
+    def create(self, name):
+        h = House(name=name)
+
+        db.session.add(h)
+        db.session.commit()

@@ -5,14 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="">
+    <form method="POST" enctype="multipart/form-data">
         <p>Wizard Name</p>
-        <input type="text" value="wizard_name">
+        <input type="text" name="wizard_name">
         <p>Wizard House</p>
         <select name="house_options">
             <option value="">Choose an option</option>
             {% for house in houses %}
-            <option value="{{ house.id }}">{{ house }}</option>
+            <option value="{{ house.id }}">{{ house.name }}</option>
             {% endfor %}
         </select>
         <input type="submit" value="send">
