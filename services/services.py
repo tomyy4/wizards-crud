@@ -14,6 +14,9 @@ class WizardService:
     def create_wizard(self, name, house_id):
         return self.repository.create(name, house_id)
 
+    def delete_wizard(self, id):
+        return self.repository.delete(id)
+
 
 class HouseService:
     def __init__(self, repository):
@@ -27,3 +30,7 @@ class HouseService:
 
     def create_house(self, name):
         return self.repository.create(name)
+
+    def delete_house(self, id):
+        return self.repository.delete(id)
+

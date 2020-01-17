@@ -16,6 +16,9 @@ class WizardRepository:
         db.session.add(w)
         db.session.commit()
 
+    def delete(self, id):
+        return Wizard.query.filter_by(id=id).delete()
+
 
 class HouseRepository:
 
@@ -30,3 +33,8 @@ class HouseRepository:
 
         db.session.add(h)
         db.session.commit()
+
+    def delete(self, id):
+        return House.query.filter_by(id=id).delete()
+
+

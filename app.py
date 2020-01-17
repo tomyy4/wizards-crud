@@ -22,7 +22,7 @@ def index():
     return 'Hello World'
 
 
-@app.route('/wizards')
+@app.route('/wizards', methods=['GET'])
 def wizards():
     service = WizardService(WizardRepository)
     wizards = service.get_all_wizards()
@@ -34,6 +34,7 @@ def wizards():
 def wizard_by_id(wizard_id):
     service = WizardService(WizardRepository)
     wizard = service.get_wizard_by_id(wizard_id)
+
     return render_template('wizard.html', wizard=wizard)
 
 
@@ -53,11 +54,24 @@ def create_wizard():
     # houses_ids = [h.id for h in houses]
     return render_template('new_wizard.html', houses=houses)
 
+@app.route('/wizard/delete', methods=['GET','POST'])
+def delete_wizard():
+    service = WizardService(WizardRepository)
+    wizards = service.get_all_wizards()
+
+    if request.method == 'POST':
+        service.delete_wizard(request.form['wizards_id'])
+
+        return render_template('wizards.html', wizards=wizards)
+
+    return render_template('delete_wizard.html', wizards=wizards)
+
 
 @app.route('/houses')
 def houses():
     service = HouseService(HouseRepository)
     houses = service.get_all_houses()
+
     return render_template('houses.html', houses=houses)
 
 
@@ -78,6 +92,19 @@ def create_house():
         return render_template('house_success.html')
 
     return render_template('new_house.html')
+
+
+@app.route('/house/delete', methods=['GET','POST'])
+def delete_house():
+    service = HouseService(HouseRepository)
+    houses = service.get_all_houses()
+
+    if request.method == 'POST':
+        service.delete_house(request.form['houses_id'])
+
+        return render_template('houses.html', houses=houses)
+
+    return render_template('delete_house.html', houses=houses)
 
 
 if __name__ == '__main__':
