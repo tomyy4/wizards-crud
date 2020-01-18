@@ -20,11 +20,12 @@ class WizardService:
 
         return False
 
-    def update_wizard(self, wizard_id, name, house_id):
-        return self.repository.update(wizard_id, name, house_id)
+    def update_wizard(self, wizard_id, name, age, house_id):
+        return self.repository.update(wizard_id, name, age, house_id)
 
     def delete_wizard(self, id):
         return self.repository.delete(id)
+
 
 class CanRegisterWizard:
     def __init__(self, age, letter, dark_wizard, voldemort_friend, house_id):
@@ -91,3 +92,11 @@ class HasReceivedLetter:
 
     def execute(self):
         return int(self.has_received_letter) == 1
+
+
+class GriffindorWizardCantGoToSlytherin:
+    def __init__(self, house_id):
+        self.house_id = house_id
+
+    def execute(self):
+        pass

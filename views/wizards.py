@@ -4,7 +4,6 @@ from services.wizard_services import WizardService
 
 from repositories.repositories import WizardRepository, HouseRepository
 
-
 wizard = Blueprint('wizard', __name__,template_folder='templates/',static_folder='static')
 
 
@@ -54,18 +53,13 @@ def update_wizard(wizard_id):
     houses = h_service.get_all_houses()
 
     if request.method == 'POST':
-        w_service.update_wizard(
+        updated_wizard = w_service.update_wizard(
             request.form['wizard_id'],
             request.form['wizard_name'],
+            request.form['wizard_age'],
             request.form['wizard_house'])
 
-        return render_template('wizard/wizards_success.html')
-
     wizard = w_service.get_wizard_by_id(wizard_id)
-
-    if wizard is None:
-        return 'Not Found'
-
     current_house = h_service.get_house_by_id(wizard.house_id)
 
     return render_template(

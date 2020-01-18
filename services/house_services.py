@@ -20,8 +20,8 @@ class HouseService:
 
         return False
 
-    def update_house(self, id, name):
-        return self.repository.update(id, name)
+    def update_house(self, id, name, max_students):
+        return self.repository.update(id, name, max_students)
 
     def delete_house(self, id):
         return self.repository.delete(id)
@@ -47,11 +47,9 @@ class CanCreateHouse:
 
     def execute(self):
         if not self.less_than_50_students.execute():
-            print('House already has more thatn 50 students')
             return False
 
         if not self.house_does_not_teaches_dark_arts.execute():
-            print('Houses can\'t teach dark arts')
             return False
 
         return True
@@ -71,3 +69,4 @@ class HouseDoesNotTeachDarkArts:
 
     def execute(self):
         return int(self.teaches_dark_arts) == 0
+

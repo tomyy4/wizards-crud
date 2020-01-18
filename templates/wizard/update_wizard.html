@@ -8,6 +8,8 @@
      <form method="POST" enctype="multipart/form-data">
         <p>Wizard Name</p>
          <input type="text" value="{{ wizard.name }}" name="wizard_name">
+         <p>Wizard Age</p>
+         <input type="number" value="{{ wizard.age }}" name="wizard_age">
          <p>Current House : {{ current_house }}</p>
 
         <select name="wizard_house">

@@ -45,9 +45,8 @@ def update_house(house_id):
         service.update_house(
             request.form['house_id'],
             request.form['house_name'],
+            request.form['max_students']
         )
-
-        return render_template('house/houses.html')
 
     house = service.get_house_by_id(house_id)
 

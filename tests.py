@@ -17,7 +17,7 @@ class CreateWizardTest(unittest.TestCase):
         self.assertTrue(create_wizard)
 
     def test_cannot_create_wizard_older_than_18_wizard(self):
-        w = Wizard('Harry',19,1 ,0 ,0, 1)
+        w = Wizard('Harry', 19, 1, 0, 0, 1)
         b = BaseWizardRepository()
         service = WizardService(b)
         create_wizard = service.create_wizard(
@@ -26,14 +26,13 @@ class CreateWizardTest(unittest.TestCase):
         self.assertFalse(create_wizard)
 
     def test_cannot_register_if_has_not_received_letter(self):
-        w = Wizard('Harry',19, 0, 0, 0, 1)
+        w = Wizard('Harry', 19, 0, 0, 0, 1)
         b = BaseWizardRepository()
         service = WizardService(b)
         create_wizard = service.create_wizard(
             w.name, w.age, w.has_received_letter, w.dark_wizard, w.voldemort_friend, w.house_id
         )
         self.assertFalse(create_wizard)
-
 
     def test_cannot_register_if_will_turn_into_dark_mage(self):
         w = Wizard('Harry', 15, 1, 1, 0, 1)
@@ -53,7 +52,15 @@ class CreateWizardTest(unittest.TestCase):
         )
         self.assertFalse(create_wizard)
 
+
 class CreateHouseTest(unittest.TestCase):
+    def test_can_create_house_with_right_parameters(self):
+        h = House('Griffindor', 50, 0)
+        repo = BaseHouseRepository()
+        service = HouseService(repo)
+        create_house = service.create_house(h.name, h.students, h.students)
+        self.assertFalse(create_house)
+
     def test_cannot_create_house_if_teaches_dark_arts(self):
         h = House('Griffindor', 50, 1)
         repo = BaseHouseRepository()
@@ -67,6 +74,7 @@ class CreateHouseTest(unittest.TestCase):
         service = HouseService(repo)
         create_house = service.create_house(h.name, h.students, h.students)
         self.assertFalse(create_house)
+
 
 if __name__ == "__main__":
     unittest.main()

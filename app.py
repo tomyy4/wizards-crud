@@ -14,6 +14,7 @@ db.init_app(app)
 app.register_blueprint(wizard)
 app.register_blueprint(house)
 
+
 with app.app_context():
     db.create_all()
 
