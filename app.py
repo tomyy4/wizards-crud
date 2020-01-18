@@ -42,12 +42,15 @@ def create_wizard():
     houses = h_service.get_all_houses()
 
     if request.method == 'POST':
-        name = request.form['wizard_name']
-        age = request.form['wizard_age']
-        has_received_letter = request.form['has_received_letter']
-        house_id = request.form['house_options']
         service = WizardService(WizardRepository())
-        new_wizard = service.create_wizard(name, age, has_received_letter, house_id)
+        new_wizard = service.create_wizard(
+            request.form['wizard_name'],
+            request.form['wizard_age'],
+            request.form['has_received_letter'],
+            request.form['house_options'],
+            request.form['dark_wizard'],
+            request.form['voldemort_friend']
+        )
 
         if new_wizard:
             return render_template('wizard_success.html')

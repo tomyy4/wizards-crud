@@ -10,8 +10,8 @@ class WizardService:
     def get_wizard_by_id(self, wizard_id):
         return self.repository.get_by_id(wizard_id)
 
-    def create_wizard(self, name, age, has_received_letter, house_id):
-        s = CanRegisterWizard(age, has_received_letter, house_id)
+    def create_wizard(self, name, age, has_received_letter, dark_wizard, voldemort_friend, house_id):
+        s = CanRegisterWizard(age, has_received_letter,dark_wizard, voldemort_friend, house_id)
         can_register_wizard = s.execute()
 
         if can_register_wizard:
@@ -56,13 +56,17 @@ class HouseService:
 
 
 class CanRegisterWizard:
-    def __init__(self, age, has_received_letter, house_id):
+    def __init__(self, age, letter, dark_wizard, voldemort_friend, house_id):
         self.age = age
-        self.has_received_letter = has_received_letter
+        self.letter = letter
+        self.dark_wizard = dark_wizard
+        self.voldemort_friend = voldemort_friend
         self.house_id = house_id
         self.wizard_has_proper_age = WizardHasProperAge(self.age)
-        self.has_received_letter = HasReceivedLetter(self.has_received_letter)
+        self.has_received_letter = HasReceivedLetter(self.letter)
         # self.house_is_not_full = HouseIsNotFull(self.house_id)
+        self.wont_turn_dark_mage = WizardWontTurnIntoADarkMage(self.dark_wizard)
+        self.is_not_voldemort_friend = WizardIsNotFriendWithVoldemort(self.voldemort_friend)
 
     def execute(self):
         if not self.has_received_letter.execute():
@@ -77,6 +81,12 @@ class CanRegisterWizard:
             print('Wizard has not proper age')
             return False
 
+        if not self.wont_turn_dark_mage.execute():
+            return False
+
+        if not self.is_not_voldemort_friend.execute():
+            return False
+
         return True
 
 
@@ -88,7 +98,20 @@ class WizardHasProperAge:
         return False if int(self.age) > 18 else True
 
 
-# Student can join a new subject
+class WizardWontTurnIntoADarkMage:
+    def __init__(self, dark_wizard):
+        self.dark_wizard = dark_wizard
+
+    def execute(self):
+        return int(self.dark_wizard) == 0
+
+
+class WizardIsNotFriendWithVoldemort:
+    def __init__(self, friend_with_voldemort):
+        self.friend_with_voldemort = friend_with_voldemort
+
+    def execute(self):
+        return int(self.friend_with_voldemort) == 0
 
 
 class HasReceivedLetter:
@@ -107,7 +130,7 @@ class HouseIsNotFull:
     def execute(self):
         house = self.h_service.get_house_by_id(self.house_id)
 
-        return False if house.max_students > 10 else True
+        return False if house.max_students > 50 else True
 
 
 class CanCreateHouse:
