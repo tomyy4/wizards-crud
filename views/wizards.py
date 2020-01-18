@@ -3,9 +3,7 @@ from services.services import WizardService, HouseService
 from repositories.repositories import WizardRepository, HouseRepository
 
 
-wizard = Blueprint('wizard', __name__,
-                    template_folder='templates',
-                    static_folder='static')
+wizard = Blueprint('wizard', __name__,template_folder='templates/',static_folder='static')
 
 
 @wizard.route('/wizards', methods=['GET'])
@@ -13,7 +11,7 @@ def wizards():
     service = WizardService(WizardRepository())
     wizards = service.get_all_wizards()
 
-    return render_template('wizards.html', wizards=wizards)
+    return render_template('wizard/wizards.html', wizards=wizards)
 
 
 @wizard.route('/wizard/<int:wizard_id>')
@@ -21,7 +19,7 @@ def wizard_by_id(wizard_id):
     service = WizardService(WizardRepository())
     wizard = service.get_wizard_by_id(wizard_id)
 
-    return render_template('wizard.html', wizard=wizard)
+    return render_template('wizard/wizard.html', wizard=wizard)
 
 
 @wizard.route('/wizard/new', methods=['GET','POST'])
@@ -41,10 +39,10 @@ def create_wizard():
         )
 
         if new_wizard:
-            return render_template('wizard_success.html')
-        return render_template('wizard_error.html')
+            return render_template('wizard/wizard_success.html')
+        return render_template('wizard/wizard_error.html')
 
-    return render_template('new_wizard.html', houses=houses)
+    return render_template('wizard/new_wizard.html', houses=houses)
 
 
 @wizard.route('/wizard/update/<int:wizard_id>', methods=['GET','POST'])
@@ -59,7 +57,7 @@ def update_wizard(wizard_id):
             request.form['wizard_name'],
             request.form['wizard_house'])
 
-        return render_template('wizards_success.html')
+        return render_template('wizard/wizards_success.html')
 
     wizard = w_service.get_wizard_by_id(wizard_id)
 
@@ -68,7 +66,11 @@ def update_wizard(wizard_id):
 
     current_house = h_service.get_house_by_id(wizard.house_id)
 
-    return render_template('update_wizard.html', wizard=wizard, houses=houses, current_house=current_house)
+    return render_template(
+        'wizard/update_wizard.html',
+        wizard=wizard,
+        houses=houses,
+        current_house=current_house)
 
 
 @wizard.route('/wizard/delete', methods=['GET','POST'])
@@ -79,7 +81,7 @@ def delete_wizard():
     if request.method == 'POST':
         service.delete_wizard(request.form['wizards_id'])
 
-        return render_template('wizards.html', wizards=wizards)
+        return render_template('wizard/wizards.html', wizards=wizards)
 
-    return render_template('delete_wizard.html', wizards=wizards)
+    return render_template('wizard/delete_wizard.html', wizards=wizards)
 
