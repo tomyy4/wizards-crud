@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request
-from services.services import WizardService, HouseService
+from services.house_services import HouseService
+from services.wizard_services import WizardService
+
 from repositories.repositories import WizardRepository, HouseRepository
 
 

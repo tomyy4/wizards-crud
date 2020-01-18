@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from services.services import HouseService
+from services.house_services import HouseService
 from repositories.repositories import HouseRepository
 
 

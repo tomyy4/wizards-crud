@@ -1,6 +1,7 @@
 import unittest
 from models.base_models import Wizard, House
-from services.services import WizardService, HouseService
+from services.house_services import HouseService
+from services.wizard_services import WizardService
 from repositories.repositories import BaseWizardRepository, BaseHouseRepository
 
 
