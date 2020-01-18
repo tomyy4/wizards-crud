@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
 from services.services import WizardService, HouseService
+from repositories.repositories import WizardRepository, HouseRepository
 from db.database import db
 from db.config import config
 import os
 SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = config['sqlite']
 app.config['SQLALCHEMY_DATABASE_URI'] = config['mysql']
 app.config['SECRET_KEY'] = SECRET_KEY
 db.init_app(app)
@@ -22,7 +22,7 @@ def index():
 
 @app.route('/wizards', methods=['GET'])
 def wizards():
-    service = WizardService()
+    service = WizardService(WizardRepository())
     wizards = service.get_all_wizards()
 
     return render_template('wizards.html', wizards=wizards)
@@ -30,7 +30,7 @@ def wizards():
 
 @app.route('/wizard/<int:wizard_id>')
 def wizard_by_id(wizard_id):
-    service = WizardService()
+    service = WizardService(WizardRepository())
     wizard = service.get_wizard_by_id(wizard_id)
 
     return render_template('wizard.html', wizard=wizard)
@@ -38,7 +38,7 @@ def wizard_by_id(wizard_id):
 
 @app.route('/wizard/new', methods=['GET','POST'])
 def create_wizard():
-    h_service = HouseService()
+    h_service = HouseService(HouseRepository())
     houses = h_service.get_all_houses()
 
     if request.method == 'POST':
@@ -46,7 +46,7 @@ def create_wizard():
         age = request.form['wizard_age']
         has_received_letter = request.form['has_received_letter']
         house_id = request.form['house_options']
-        service = WizardService()
+        service = WizardService(WizardRepository())
         new_wizard = service.create_wizard(name, age, has_received_letter, house_id)
 
         if new_wizard:
@@ -58,8 +58,8 @@ def create_wizard():
 
 @app.route('/wizard/update/<int:wizard_id>', methods=['GET','POST'])
 def update_wizard(wizard_id):
-    w_service = WizardService()
-    h_service = HouseService(HouseService)
+    w_service = WizardService(WizardRepository())
+    h_service = HouseService(HouseRepository())
     houses = h_service.get_all_houses()
 
     if request.method == 'POST':
@@ -82,7 +82,7 @@ def update_wizard(wizard_id):
 
 @app.route('/wizard/delete', methods=['GET','POST'])
 def delete_wizard():
-    service = WizardService()
+    service = WizardService(WizardRepository())
     wizards = service.get_all_wizards()
 
     if request.method == 'POST':
@@ -95,7 +95,7 @@ def delete_wizard():
 
 @app.route('/houses')
 def houses():
-    service = HouseService()
+    service = HouseService(HouseRepository())
     houses = service.get_all_houses()
 
     return render_template('houses.html', houses=houses)
@@ -103,7 +103,7 @@ def houses():
 
 @app.route('/house/<int:house_id>')
 def house_by_id(house_id):
-    service = HouseService()
+    service = HouseService(HouseRepository())
     house = service.get_house_by_id(house_id)
     return render_template('house.html', house=house)
 
@@ -114,7 +114,7 @@ def create_house():
         name = request.form['house_name']
         max_students = request.form['max_students']
         teaches_dark_arts = request.form['teaches_dark_arts']
-        service = HouseService()
+        service = HouseService(HouseRepository())
         success = service.create_house(name, max_students, teaches_dark_arts)
 
         if success:
@@ -126,7 +126,7 @@ def create_house():
 
 @app.route('/house/update/<int:house_id>', methods=['GET','POST'])
 def update_house(house_id):
-    service = HouseService()
+    service = HouseService(HouseRepository())
 
     if request.method == 'POST':
         service.update_house(
@@ -146,7 +146,7 @@ def update_house(house_id):
 
 @app.route('/house/delete', methods=['GET','POST'])
 def delete_house():
-    service = HouseService()
+    service = HouseService(HouseRepository())
     houses = service.get_all_houses()
 
     if request.method == 'POST':

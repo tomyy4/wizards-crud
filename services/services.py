@@ -1,9 +1,8 @@
-from repositories.repositories import WizardRepository, HouseRepository
 
 
 class WizardService:
-    def __init__(self):
-        self.repository = WizardRepository()
+    def __init__(self, repository):
+        self.repository = repository
 
     def get_all_wizards(self):
         return self.repository.all()
@@ -29,8 +28,8 @@ class WizardService:
 
 
 class HouseService:
-    def __init__(self):
-        self.repository = HouseRepository()
+    def __init__(self, repository):
+        self.repository = repository
 
     def get_all_houses(self):
         return self.repository.all()
@@ -63,16 +62,16 @@ class CanRegisterWizard:
         self.house_id = house_id
         self.wizard_has_proper_age = WizardHasProperAge(self.age)
         self.has_received_letter = HasReceivedLetter(self.has_received_letter)
-        self.house_is_not_full = HouseIsNotFull(self.house_id)
+        # self.house_is_not_full = HouseIsNotFull(self.house_id)
 
     def execute(self):
         if not self.has_received_letter.execute():
             print('Wizard has not received letter')
             False
 
-        if not self.house_is_not_full.execute():
-            print('House is Full')
-            return False
+        #if not self.house_is_not_full.execute():
+        #    print('House is Full')
+        #    return False
 
         if not self.wizard_has_proper_age.execute():
             print('Wizard has not proper age')
@@ -97,13 +96,13 @@ class HasReceivedLetter:
         self.has_received_letter = has_received_letter
 
     def execute(self):
-        return False if self.has_received_letter == 0 else True
+        return int(self.has_received_letter) == 1
 
 
 class HouseIsNotFull:
-    def __init__(self, house_id):
+    def __init__(self, house_id, service):
         self.house_id = house_id
-        self.h_service = HouseService()
+        self.h_service = service
 
     def execute(self):
         house = self.h_service.get_house_by_id(self.house_id)

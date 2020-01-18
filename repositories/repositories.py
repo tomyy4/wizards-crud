@@ -26,6 +26,17 @@ class WizardRepository:
         return Wizard.query.filter_by(id=id).delete()
 
 
+class BaseWizardRepository:
+    def all(self):
+        pass
+
+    def get_by_id(self):
+        pass
+
+    def create(self, name, age, house_id):
+        pass
+
+
 class HouseRepository:
 
     def all(self):
@@ -40,7 +51,6 @@ class HouseRepository:
         db.session.add(h)
         db.session.commit()
 
-
     def update(self, house_id, new_name,max_students):
         h = House.query.get(house_id, max_students)
 
@@ -50,3 +60,12 @@ class HouseRepository:
         return House.query.filter_by(id=id).delete()
 
 
+class BaseHouseRepository:
+    def all(self):
+        pass
+
+    def get_by_id(self):
+        pass
+
+    def create(self, name, max_students):
+        pass
