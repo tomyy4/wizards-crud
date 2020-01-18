@@ -113,9 +113,13 @@ def create_house():
     if request.method == 'POST':
         name = request.form['house_name']
         max_students = request.form['max_students']
+        teaches_dark_arts = request.form['teaches_dark_arts']
         service = HouseService()
-        service.create_house(name, max_students)
-        render_template('house_success.html')
+        success = service.create_house(name, max_students, teaches_dark_arts)
+
+        if success:
+            return render_template('house_success.html')
+        return render_template('house_error.html')
 
     return render_template('new_house.html')
 
