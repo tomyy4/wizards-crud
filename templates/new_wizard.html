@@ -7,7 +7,9 @@
 <body>
     <form method="POST" enctype="multipart/form-data">
         <p>Wizard Name</p>
-        <input type="text" name="wizard_name">
+        <input type="text" name="wizard_name" required>
+        <p>Wizard Age</p>
+        <input type="number" name="wizard_age" required>
         <p>Wizard House</p>
         <select name="house_options">
             <option value="">Choose an option</option>

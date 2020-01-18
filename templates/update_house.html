@@ -7,8 +7,9 @@
 <body>
      <form method="POST" enctype="multipart/form-data">
         <p>House Name</p>
-         <input type="text" value="{{ house.name }}" name="house_name">
-
+         <input type="text" value="{{ house.name }}" name="house_name" required>
+        <p>Max Students</p>
+         <input type="number" required>
     <input type="hidden" value="{{house.id}}" name="house_id">
         <input type="submit" value="send">
      </form>

@@ -43,11 +43,13 @@ def create_wizard():
 
     if request.method == 'POST':
         name = request.form['wizard_name']
+        age = request.form['wizard_age']
         house_id = request.form['house_options']
         service = WizardService(WizardRepository)
-        service.create_wizard(name,house_id)
 
-        return render_template('wizard_success.html')
+        wizard_ok = render_template('wizard_success.html')
+        wizard_not_ok = render_template('wizard_error.html')
+        return wizard_ok if service.create_wizard(name, age, house_id) else wizard_not_ok
 
     h_service = HouseService(HouseRepository)
     houses = h_service.get_all_houses()
@@ -109,10 +111,12 @@ def house_by_id(house_id):
 def create_house():
     if request.method == 'POST':
         name = request.form['house_name']
+        max_students = request.form['max_students']
         service = HouseService(HouseRepository)
-        service.create_house(name)
-
-        return render_template('house_success.html')
+        create = service.create_house(name, max_students)
+        house_success = render_template('house_success.html')
+        house_error = render_template('house_error.html')
+        return house_success if create else house_error
 
     return render_template('new_house.html')
 
