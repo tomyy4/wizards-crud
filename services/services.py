@@ -2,7 +2,7 @@ from repositories.repositories import WizardRepository, HouseRepository
 
 
 class WizardService:
-    def __init__(self, repository):
+    def __init__(self):
         self.repository = WizardRepository()
 
     def get_all_wizards(self):
@@ -11,9 +11,15 @@ class WizardService:
     def get_wizard_by_id(self, wizard_id):
         return self.repository.get_by_id(wizard_id)
 
-    def create_wizard(self, name,age, house_id):
-        can_register_wizard = WizardHasReceivedLetter()
-        return self.repository.create(name, age, house_id) if can_register_wizard else False
+    def create_wizard(self, name, age, has_received_letter, house_id):
+        s = CanRegisterWizard(age, has_received_letter, house_id)
+        can_register_wizard = s.execute()
+
+        if can_register_wizard:
+            self.repository.create(name, age, house_id)
+            return True
+
+        return False
 
     def update_wizard(self, wizard_id, name, house_id):
         return self.repository.update(wizard_id, name, house_id)
@@ -23,7 +29,7 @@ class WizardService:
 
 
 class HouseService:
-    def __init__(self, repository):
+    def __init__(self):
         self.repository = HouseRepository()
 
     def get_all_houses(self):
@@ -42,22 +48,69 @@ class HouseService:
         return self.repository.delete(id)
 
 
-# class WizardHasProperAge:
-#    def __init__(self, age):
-#        self.age = age
-
-#    def execute(self):
-#        return True if self.age < 18 else False and print('fuck you')
-
-
-class WizardHasReceivedLetter:
-    def __init__(self):
-        self.execute()
+class CanRegisterWizard:
+    def __init__(self, age, has_received_letter, house_id):
+        self.age = age
+        self.has_received_letter = has_received_letter
+        self.house_id = house_id
+        self.wizard_has_proper_age = WizardHasProperAge(self.age)
+        self.has_received_letter = HasReceivedLetter(self.has_received_letter)
+        self.house_is_not_full = HouseIsNotFull(self.house_id)
 
     def execute(self):
-        import random
-        bool(random.getrandbits(1))
+        if not self.has_received_letter.execute():
+            print('Wizard has not received letter')
+            False
+
+        if not self.house_is_not_full.execute():
+            print('House is Full')
+            return False
+
+        if not self.wizard_has_proper_age.execute():
+            print('Wizard has not proper age')
+            return False
+
+        return True
+
+
+class WizardHasProperAge:
+    def __init__(self, age):
+        self.age = age
+
+    def execute(self):
+        return False if int(self.age) > 18 else True
+
 
 # Student can join a new subject
 
 
+class HasReceivedLetter:
+    def __init__(self, has_received_letter):
+        self.has_received_letter = has_received_letter
+
+    def execute(self):
+        return False if self.has_received_letter == 0 else True
+
+
+class HouseIsNotFull:
+    def __init__(self, house_id):
+        self.house_id = house_id
+        self.h_service = HouseService()
+
+    def execute(self):
+        house = self.h_service.get_house_by_id(self.house_id)
+
+        return False if house.max_students > 10 else True
+
+
+class HouseHasLessThan50Students:
+    def __init__(self, max_students):
+        self.max_students = max_students
+
+        def execute(self):
+            return self.max_students < 50
+
+
+class HouseDoesNotTeachDarkArts:
+    def __init__(self, teaches_dark_arts):
+        
