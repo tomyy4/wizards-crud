@@ -1,5 +1,6 @@
+from .connection_string import CONNECTION
 
 config = {
     'sqlite': 'sqlite:////tmp/test.db',
-    'mysql': 'mysql+pymysql://root:@localhost/wizards-crud',
+    'mysql': 'mysql+pymysql://' + CONNECTION,
 }
