@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Wizard</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        <p>Select House to delete</p>
+        <select name="houses_id">
+            <option value="">Choose an option</option>
+            {% for house in houses %}
+            <option value="{{ house.id }}">{{ house.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="send">
+    </form>
+</body>
+</html>

@@ -2,6 +2,7 @@
 from models.models import Wizard, House
 from db.database import db
 
+
 class WizardRepository:
 
     def all(self):
@@ -15,6 +16,11 @@ class WizardRepository:
 
         db.session.add(w)
         db.session.commit()
+
+    def update(self, wizard_id, new_name, new_house_id):
+        w = Wizard.query.get(wizard_id)
+
+        return w.query.update({'name': new_name, 'house_id': new_house_id})
 
     def delete(self, id):
         return Wizard.query.filter_by(id=id).delete()
@@ -33,6 +39,12 @@ class HouseRepository:
 
         db.session.add(h)
         db.session.commit()
+
+
+    def update(self, house_id, new_name):
+        h = House.query.get(house_id)
+
+        return h.query.update({'name': new_name})
 
     def delete(self, id):
         return House.query.filter_by(id=id).delete()
