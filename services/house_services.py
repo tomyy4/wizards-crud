@@ -15,7 +15,6 @@ class HouseService:
 
         if can_register_house:
             self.repository.create(name, max_students)
-            print('success')
             return True
 
         return False
