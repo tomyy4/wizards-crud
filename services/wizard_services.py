@@ -41,7 +41,7 @@ class CanRegisterWizard:
 
     def execute(self):
         if not self.has_received_letter.execute():
-            False
+            return False
 
         if not self.wizard_has_proper_age.execute():
             return False
