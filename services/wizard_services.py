@@ -36,21 +36,14 @@ class CanRegisterWizard:
         self.house_id = house_id
         self.wizard_has_proper_age = WizardHasProperAge(self.age)
         self.has_received_letter = HasReceivedLetter(self.letter)
-        # self.house_is_not_full = HouseIsNotFull(self.house_id)
         self.wont_turn_dark_mage = WizardWontTurnIntoADarkMage(self.dark_wizard)
         self.is_not_voldemort_friend = WizardIsNotFriendWithVoldemort(self.voldemort_friend)
 
     def execute(self):
         if not self.has_received_letter.execute():
-            print('Wizard has not received letter')
             False
 
-        #if not self.house_is_not_full.execute():
-        #    print('House is Full')
-        #    return False
-
         if not self.wizard_has_proper_age.execute():
-            print('Wizard has not proper age')
             return False
 
         if not self.wont_turn_dark_mage.execute():
@@ -93,10 +86,3 @@ class HasReceivedLetter:
     def execute(self):
         return int(self.has_received_letter) == 1
 
-
-class GriffindorWizardCantGoToSlytherin:
-    def __init__(self, house_id):
-        self.house_id = house_id
-
-    def execute(self):
-        pass
