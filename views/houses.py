@@ -18,7 +18,8 @@ def houses():
 def house_by_id(house_id):
     service = HouseService(HouseRepository())
     house = service.get_house_by_id(house_id)
-    return render_template('house/house.html', house=house)
+
+    return render_template('house/house.html', house=house) if house else render_template('house/house_not_found.html')
 
 
 @house.route('/house/new', methods=['GET','POST'])

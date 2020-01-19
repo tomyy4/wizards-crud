@@ -20,7 +20,7 @@ def wizard_by_id(wizard_id):
     service = WizardService(WizardRepository())
     wizard = service.get_wizard_by_id(wizard_id)
 
-    return render_template('wizard/wizard.html', wizard=wizard)
+    return render_template('wizard/wizard.html', wizard=wizard) if wizard else render_template('wizard/wizard_not_found.html')
 
 
 @wizard.route('/wizard/new', methods=['GET','POST'])
@@ -53,7 +53,7 @@ def update_wizard(wizard_id):
     houses = h_service.get_all_houses()
 
     if request.method == 'POST':
-        updated_wizard = w_service.update_wizard(
+        w_service.update_wizard(
             request.form['wizard_id'],
             request.form['wizard_name'],
             request.form['wizard_age'],
@@ -62,11 +62,13 @@ def update_wizard(wizard_id):
     wizard = w_service.get_wizard_by_id(wizard_id)
     current_house = h_service.get_house_by_id(wizard.house_id)
 
-    return render_template(
-        'wizard/update_wizard.html',
-        wizard=wizard,
-        houses=houses,
-        current_house=current_house)
+    if wizard is not None:
+        return render_template('wizard/update_wizard.html',
+                                wizard=wizard,
+                               houses=houses,
+                               current_house=current_house)
+    else:
+        return render_template('wizard/wizard_not_found.html')
 
 
 @wizard.route('/wizard/delete', methods=['GET','POST'])
