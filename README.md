@@ -3,8 +3,8 @@ Wizards Crud with Flask Framework
 
 Requirements
 
-Python3 or greater
-Pip
+1. Python3 or greater
+2. Pip
 
 Steps
 1. Install a virtualenv
