@@ -53,11 +53,14 @@ def update_wizard(wizard_id):
     houses = h_service.get_all_houses()
 
     if request.method == 'POST':
-        w_service.update_wizard(
+        can_update_wizard = w_service.update_wizard(
             request.form['wizard_id'],
             request.form['wizard_name'],
             request.form['wizard_age'],
             request.form['wizard_house'])
+
+        if not can_update_wizard:
+            return render_template('wizard/wizard_error.html')
 
     wizard = w_service.get_wizard_by_id(wizard_id)
     current_house = h_service.get_house_by_id(wizard.house_id)

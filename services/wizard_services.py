@@ -21,10 +21,19 @@ class WizardService:
         return False
 
     def update_wizard(self, wizard_id, name, age, house_id):
-        return self.repository.update(wizard_id, name, age, house_id)
+        check_wizard = self.get_wizard_by_name(name)
+
+        if name == check_wizard.name:
+            return False
+
+        self.repository.update(wizard_id, name, age, house_id)
+        return True
 
     def delete_wizard(self, id):
         return self.repository.delete(id)
+
+    def get_wizard_by_name(self, name):
+        return self.repository.get_by_name(name)
 
 
 class CanRegisterWizard:

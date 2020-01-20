@@ -20,10 +20,19 @@ class HouseService:
         return False
 
     def update_house(self, id, name, max_students):
-        return self.repository.update(id, name, max_students)
+        check_house = self.get_house_by_name(name)
+
+        if check_house.name == name:
+            return False
+
+        self.repository.update(id, name, max_students)
+        return True
 
     def delete_house(self, id):
         return self.repository.delete(id)
+
+    def get_house_by_name(self, name):
+        return self.repository.get_by_name(name)
 
 
 class HouseIsNotFull:

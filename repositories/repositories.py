@@ -20,6 +20,9 @@ class BaseWizardRepository(ABC):
     def delete(self, id):
         pass
 
+    def get_by_name(self, name):
+        pass
+
 
 class BaseHouseRepository(ABC):
     def all(self):
@@ -35,6 +38,9 @@ class BaseHouseRepository(ABC):
         pass
 
     def delete(self, id):
+        pass
+
+    def get_by_name(self, name):
         pass
 
 
@@ -64,6 +70,9 @@ class WizardRepository(BaseWizardRepository):
     def delete(self, id):
         return Wizard.query.filter_by(id=id).delete()
 
+    def get_by_name(self, name):
+        return Wizard.query.filter_by(name=name).first()
+
 
 class HouseRepository(BaseHouseRepository):
 
@@ -90,3 +99,5 @@ class HouseRepository(BaseHouseRepository):
     def delete(self, id):
         return House.query.filter_by(id=id).delete()
 
+    def get_by_name(self, name):
+        return House.query.filter_by(name=name).first()

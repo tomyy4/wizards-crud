@@ -43,11 +43,14 @@ def update_house(house_id):
     service = HouseService(HouseRepository())
 
     if request.method == 'POST':
-        service.update_house(
+        can_update_house = service.update_house(
             request.form['house_id'],
             request.form['house_name'],
             request.form['max_students']
         )
+
+        if not can_update_house:
+            return render_template('house/house_error.html')
 
     house = service.get_house_by_id(house_id)
 
